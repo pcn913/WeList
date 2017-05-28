@@ -1,42 +1,39 @@
-//App depencencies -----------------------------------------/
-var express = require('express');
-var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
-var methodOverride = require('method-override');
+// *****************************************************************************
+// Server.js - This file is the initial starting point for the Node/Express server.
+//
+// ******************************************************************************
+// *** Dependencies
+// =============================================================
+var express = require("express");
+var bodyParser = require("body-parser");
+
+// Sets up the Express App
+// =============================================================
 var app = express();
+var PORT = process.env.PORT || 3009;
 
+// Requiring our models for syncing
+var db = require("./models");
 
-//App middleware -------------------------------------------/
-app.use(methodOverride('_method'));
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+// Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
-app.use(express.static(process.cwd() + "/public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
-//Handlebars config ---------------------------------------/
-app.engine('handlebars', exphbs({
-  defaultLayout: 'main'
-}));
-app.set('view engine', 'handlebars');
+// Static directory
+app.use(express.static("public"));
 
-//Route config -------------------------------------------/
-require('./routes/htmlRoutes')(app);
-require('./routes/apiRoutes')(app);
+// Routes =============================================================
 
-//Database config ---------------------------------------/
-global.db = require('./models');
+ require("./routes/html-routes.js")(app);
+ require("./routes/list-api-routes.js")(app);
+// require("./routes/author-api-routes.js")(app);
 
-//Port config ---------------------------------------------------/
-var PORT = process.env.PORT || 3000;
-
-//Starting the server, syncing our models ------------------------------------/
+//Syncing our sequelize models and then starting our express app
 db.sequelize.sync({ force: false }).then(function() {
-  app.listen(PORT, function(err) {
-    if (err) {
-      console.error(err);
-    } else {
-      console.info("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
-    }
+  app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
   });
 });
+

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+<!-- Bootstrap 4 alpha CSS -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+<!-- jQuery library -->
+  <script src="https://code.jquery.com/jquery.js"></script>
+
+<!-- Tether -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+ 
+<!-- Bootstrap 4 Alpha JS -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<style>
+body {
+padding-top: 1em;
+} 
+.card-columns {
+    @include media-breakpoint-only(sm) {
+    column-count: 1;
+  }
+  @include media-breakpoint-only(md) {
+    column-count: 2;
+  }
+  @include media-breakpoint-only(lg) {
+    column-count: 4;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container-fluid">
+    
+<div class="card-columns" id="lists">
+
+<!-- Cards go here -->
+
+
+</div>
+
+</div>
+    
+
+<!-- Initialize Bootstrap functionality -->
+<script>
+// Initialize tooltip component
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+// Initialize popover component
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+var listdata = [];
+var itemdata = [];
+var itemString = "";
+
+$.get("/api/cards", function(listdata) {
+  $.get("/api/items", function(itemdata) {
+
+console.log("in get function");
+console.log("itemdata: " + itemdata);
+
+  for (var i = 0; i < listdata.length; i++) {
+
+      itemString = '<ol>';
+      console.log("\n" + listdata[i].title);
+
+    for (var n = 0; n < itemdata.length; n++) {
+
+      if (itemdata[n].list_id === listdata[i].list_id) {
+
+        itemString += '<li>' + itemdata[n].item;
+
+
+      } // end if this item is in this list
+
+
+
+    } // end for each list_item
+
+    itemString += '</ol>';
+
+    appendCard(listdata[i].title, itemString);
+
+  } // end for each lists
+
+  }); // end items get
+}); // end lists get
+
+     function appendCard(title, content) {
+
+            var h = '<div class="card">';
+            h += '<div class="card-header">' + title + '</div>';
+            h += '<div class="card-block">'
+            h += '<div class="card-text">';
+            h += '<div class="panel-body">';
+            h += content;
+            h += '</div>';
+            h += '</div>';
+            h += '</div>';
+            $("#lists").append(h);
+
+            
+        }
+      
+
+</script>
+
+</body>
+</html>
