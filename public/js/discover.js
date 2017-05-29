@@ -4,7 +4,7 @@ var cardName = "";
 var cardImg = "";
 var listAuthor = "";
 var listSrc = "";
-var footer = ""
+var footer = "";
 
 $.get("/api/cards", function(listdata) {
 
