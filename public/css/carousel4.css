@@ -5,9 +5,9 @@
 body {
   padding-bottom: 40px;
   color: #5a5a5a;
+
+
 }
-
-
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
 
@@ -146,5 +146,10 @@ body {
   }
 
   
+  #navlogo {
+    height: 30%;
+    width: 30%;
+
+  }
 
 }

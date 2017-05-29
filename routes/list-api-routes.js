@@ -56,6 +56,19 @@ module.exports = function(app) {
     });
   });  
   
+ //Get route for retrieving the items for a single list
+  app.get("/api/discover/:id", function(req, res) {
+  
+    db.List.findAll({
+      where: {
+        category: req.params.id
+      }
+
+    }).then(function(dbPost) {
+      res.json(dbPost);
+    });
+  });  
+
   //Get route for retrieving the items for a single list
   app.get("/api/lists/:id", function(req, res) {
   
