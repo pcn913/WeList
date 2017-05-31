@@ -47,13 +47,13 @@
             <a class="nav-link" href="index.html">Home </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Discover </a>
+            <a class="nav-link" href="discover.html">Discover </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="create.html">Create </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="mylists.html">My Lists</a>
+            <a class="nav-link" href="#">My Lists</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Login</a>
@@ -74,13 +74,7 @@
     <center>
     <div class="menu-wrapper">
         <ul class="menu">
-        <li class="item num1" id="travel">Travel</li><!--
-      --><li class="item num2" id="food">Food</li><!--
-      --><li class="item num3" id="home">Home</li><!--
-      --><li class="item num4" id="kids">Kids</li><!--
-      --><li class="item num5" id="pets">Pets</li><!--
-      --><li class="item num6" id="music">Music</li><!--
-      --><li class="item num7" id="career">Career</li>
+    
         </ul>
       <div class="paddles">
         <button class="left-paddle paddle hidden">
@@ -100,6 +94,34 @@
     
         <div class="card-columns" id="lists">
 
+          <div class="card">
+            <div class="card-header">My Lists - Getting Started</div>
+              <div class="card-block">
+                <div class="card-text">
+                <div class="panel-body">
+                <img src="img/todo-nottodo.jpg" width="100%"><br><br>
+                    <ol>
+                    <li>Click Create</li>
+                    <li>Name your list</li>
+                    <li>Add a list category</li>
+                    <li>Add a description</li>
+                    <li>Paste an image link</li>
+                    <li>Click Continue</li>
+                    <li>Add your items</li>
+                    <li>Save your list</li>
+                    </ol>
+                </div>
+                </div>
+            </div>
+            <center>
+            <div class="card-footer"><button type="button" id="firstList" class="btn btn-default" data-dismiss="modal">Create a List</button>
+            </div>
+            </center>
+           </div> 
+            <br>
+            <br>
+
+
           <!-- list cards go here -->
 
         </div>
@@ -110,7 +132,7 @@
       <!-- FOOTER -->
       <footer>
         <p class="float-right"><a href="#">Back to top</a></p>
-        <p>&copy; WeList &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
+        <p>&copy; 2017 WeList &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
       </footer>
 
     </div><!-- /.container -->
@@ -139,7 +161,7 @@
   </div>
 
 <!-- discover.js needs to be loaded last for the .item bindings to work -->
-<script src="/js/discover.js"></script>
+<script src="/js/mylists.js"></script>
 
 </body>
 </html>

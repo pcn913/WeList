@@ -9,6 +9,11 @@ body {
 
 }
 
+#itemsModal {
+    overflow-y:auto;
+    max-height:100%;
+}
+
 .card-columns {
     @include media-breakpoint-only(sm) {
     column-count: 1;

@@ -32,6 +32,11 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "../public/discover.html"));
   });
 
+  // create route loads create.html which is the user's personal lists available in database
+  app.get("/create", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/create.html"));
+  });
+
   // list route loads list.html -> this to create new list/edit or view existing list
   app.get("/list", function(req, res) {
     res.sendFile(path.join(__dirname, "../public/list.html"));

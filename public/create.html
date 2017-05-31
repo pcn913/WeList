@@ -47,10 +47,10 @@
             <a class="nav-link" href="index.html">Home </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Discover </a>
+            <a class="nav-link" href="discover.html">Discover </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="create.html">Create </a>
+            <a class="nav-link" href="#">Create </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="mylists.html">My Lists</a>
@@ -72,16 +72,12 @@
     <div class="container marketing">
 
     <center>
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" id="wrapper">
+  
         <ul class="menu">
-        <li class="item num1" id="travel">Travel</li><!--
-      --><li class="item num2" id="food">Food</li><!--
-      --><li class="item num3" id="home">Home</li><!--
-      --><li class="item num4" id="kids">Kids</li><!--
-      --><li class="item num5" id="pets">Pets</li><!--
-      --><li class="item num6" id="music">Music</li><!--
-      --><li class="item num7" id="career">Career</li>
+    
         </ul>
+
       <div class="paddles">
         <button class="left-paddle paddle hidden">
            <
@@ -92,13 +88,41 @@
       </div>
 
     </div>
-    </center>
+    </center>    
 
     <br>
 
       <div class="container-fluid">
     
         <div class="card-columns" id="lists">
+
+          <div class="card">
+            <div class="card-header">My Lists</div>
+              <div class="card-block">
+                <div class="card-text">
+                <div class="panel-body">
+                <img src="img/todo-nottodo.jpg" width="100%"><br><br>
+                    <ol>
+                    <li>Get started on a list!</li>
+                    <li>Click Create</li>
+                    <li>Name your list</li>
+                    <li>Add a list category, if you like</li>
+                    <li>Enter a description (optional)</li>
+                    <li>Paste a link to an image of your choice</li>
+                    <li>Click Continue</li>
+                    <li>Now you can add items!</li>
+                    </ol>
+                </div>
+                </div>
+            </div>
+            <center>
+            <div class="card-footer"><button type="button" id="firstList" class="btn btn-default" data-dismiss="modal">Create a List</button>
+            </div>
+            </center>
+           </div> 
+            <br>
+            <br>
+
 
           <!-- list cards go here -->
 
@@ -108,14 +132,16 @@
 
 
       <!-- FOOTER -->
+      <div class="footer navbar-fixed-bottom">
       <footer>
         <p class="float-right"><a href="#">Back to top</a></p>
-        <p>&copy; WeList &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
+        <p>&copy; 2017 WeList &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
       </footer>
+      </div>
 
     </div><!-- /.container -->
 
-    <!-- Modal -->
+    <!-- listModal -->
   <div id="listModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -138,8 +164,86 @@
     </div>
   </div>
 
+  <!-- createModal -->
+  <div id="createModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+         
+          <h4 class="modal-title"><strong>Create a list</strong></h4>
+        </div>
+        <div class="modal-body">
+        
+          <p><div id="formArea">
+            
+              <h6>Title (Required)</h6>
+              <input type="text" name="" id="createName" class="form-control" required >
+              <br>
+              <h6>Link to Photo Image (Optional)</h6>
+              <input type="text" name="" id="createPhoto" class="form-control">
+              <br>
+              <h6>Category (Optional)</h6>
+              <input type="text" name="" id="createCat" class="form-control">
+              <br>
+              <h6>Description (Optional)</h6>
+                <textarea class="form-control col-xs-12" rows="7" id="createDesc" ></textarea>
+
+              <hr>
+
+
+          </div></p>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button> <button type="button" id="continue" class="btn btn-default" data-dismiss="modal">Continue</button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- itemsModal -->
+  <div id="itemsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+         
+          <h2 class="modal-title" id="itemsName"><strong>List name</strong></h2>
+
+        </div>
+        <div class="modal-body">
+        <img id="itemsImg" src="http://www.globeslcc.com/wp-content/uploads/media/anonymous_girl_facebook.jpg" alt="" style="height: auto; max-width: 100%"><br><br>
+        
+        <ol><h6>
+        <div id="modalItems"></div>
+        </h6></ol>
+        
+          <p><div id="formArea">
+            
+              <h6 id="first-next">First item:</h6>
+              <input type="text" name="" id="itemEntry" class="form-control">
+
+
+              <hr>
+
+
+          </div></p>
+        </div>
+        <div class="modal-footer" id="itemsFooter">
+        <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>        <button type="button" id="add" class="btn btn-default">Add item</button> <button type="button" id="save" class="btn btn-default" data-dismiss="modal">Save</button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 <!-- discover.js needs to be loaded last for the .item bindings to work -->
-<script src="/js/discover.js"></script>
+<script src="/js/create.js"></script>
 
 </body>
 </html>
