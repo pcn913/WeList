@@ -39,9 +39,13 @@ $.get("/api/userlists/" + userid, function(listdata) {
   for (var i = 0; i < listdata.length; i++) {
 
     // if this category isn't already pushed
-    if (personalCats.indexOf(listdata[i].category) === -1) { 
+    if (personalCats.indexOf(listdata[i].category) === -1) {
+
+      if (listdata[i].category.length > 1) {
 
       personalCats.push(listdata[i].category);
+
+    } //end if the category field isn't empty
 
     } // end if this category isn't already pushed
 

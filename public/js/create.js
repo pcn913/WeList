@@ -22,7 +22,7 @@ var currItemNum = 0;
 var currItems = [];
 var currName = "";
 var currImg = "";
-var currCat = "";
+var currCat = "Other";
 var currDesc = " ";
 var currType = "number";
 
@@ -212,7 +212,13 @@ $("#continue").on("click", function(){
 
   currName = $("#createName").val();
   currImg = $("#createPhoto").val();
-  currCat = $("#createCat").val();
+
+  if ($"#createCat").val().length > 1 {
+
+     currCat = $("#createCat").val();
+  
+  }
+  
   currDesc = $("#createDesc").val();
 
   // put the list name and image url into the list items view modal
