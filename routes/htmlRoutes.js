@@ -2,18 +2,10 @@
 // htmlRoutes.js - this file offers a set of routes for sending users to the various html pages
 // *********************************************************************************
 
-var homeController = require('../controllers/home');
  var models = require('../models');
  var express = require('express');
  var router = express.Router();
  var passport = require('passport');
-
-
-
-//var homeController = require('../controllers/home');
-// module.exports = function(app) {
-//   app.get('/', homeController.renderHome);
-// };
 
 
 
@@ -37,10 +29,28 @@ module.exports = function(router) {
   // });
 
   router.get('/', function(req, res) {
-    res.render('index', {
-      user : req.user // get the user out of session and pass to template
+    // res.render('index', {
+    //   user : req.user // get the user out of session and pass to template
+    // });
+
+    models.List.findAll({
+      //include: [ models.Task ]
+      limit: 5
+    }).then(function(lists) {
+      console.log(req.user);
+
+      res.render('index', {
+        // title: 'Sequelize: Express Example',
+        covfefe: lists,
+        user: req.user // get the user out of session and pass to template
+      });
     });
+
+
   });
+
+
+
 
 
   router.get('/list', function(req, res) {
@@ -48,8 +58,9 @@ module.exports = function(router) {
 	    //include: [ models.Task ]
 	  }).then(function(lists) {
 	    res.render('list', {
-	      title: 'Sequelize: Express Example',
-	      lists: lists
+	      // title: 'Sequelize: Express Example',
+	      lists: lists,
+        user: req.user // get the user out of session and pass to template
 	    });
 	  });
 
@@ -58,30 +69,57 @@ module.exports = function(router) {
   // Get rotue for retrieving a single post
   router.get("/list/:id", function(req, res) {
     // 2. Add a join here to include the Author who wrote the Post
-    models.List_Item.findAll({
+    models.List.findAll({
       where: {
-        list_id: req.params.id
+        userid: req.params.id
       }
     }).then(function(lists) {
       console.log(lists);
-      res.render('listitem', {
-        title: 'Sequelize: Express Example',
-        lists: lists
+      res.render('list', {
+        // title: 'Sequelize: Express Example',
+        lists: lists,
+        user: req.user // get the user out of session and pass to template
       });
     });
   });
 
 
+  // Get rotue for retrieving a single post
+  router.get("/search", function(req, res) {
+    // 2. Add a join here to include the Author who wrote the Post
+    models.List.findAll({
+      where: {
+        description: 
+          {
+            $like: '%' + req.query.q + '%'
+          }
+      }
+    }).then(function(lists) {
+      console.log(lists);
+      res.render('search', {
+        // title: 'Sequelize: Express Example',
+        lists: lists,
+        user: req.user // get the user out of session and pass to template
+      });
+    });
+  });
+
+
+
+
+
+
   // index route loads our landing page
+
   router.get("/login", function(req, res) {
     //res.sendFile(path.join(__dirname, "../public/index.html"));
-    res.render("login");
+    res.render("login", { message: req.flash('loginMessage') });
   });
 
   
   // process the login form
   router.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/profile', // redirect to the secure profile section
+            successRedirect : '/', // redirect to the secure profile section
             failureRedirect : '/signup', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
     }),
@@ -139,30 +177,5 @@ function isLoggedIn(req, res, next) {
   res.redirect('/');
 }
 
-
-// // route middleware to make sure
-// function isLoggedInHeader(req, res, next) {
-
-//   // if user is authenticated in the session, carry on
-//   console.log('here');
-//   if (req.isAuthenticated())
-//     return next();
-// }
-
-
-  // list route loads list.html -> this to create new list/edit or view existing list
-  // app.get("/list", function(req, res) {
-  //   res.sendFile(path.join(__dirname, "../public/list.html"));
-  // });
-
-  // // login route loads login.html that manages the login information
-  // app.get("/login", function(req, res) {
-  //   res.sendFile(path.join(__dirname, "../public/login.html"));
-  // });
-
-  // // profile route loads userprofile.html
-  // app.get("/profile", function(req, res) {
-  //   res.sendFile(path.join(__dirname, "../public/userprofile.html"));
-  // });
 
 };
