@@ -2,6 +2,7 @@ var listId = "";
 var hString = "";
 var mString = "";
 var personalCats = [];
+var itemIds = [];
 var cardName = "";
 var cardImg = "";
 var listAuthor = "";
@@ -10,7 +11,6 @@ var footer = "";
 var num = 0;
 var listdata = [];
 var userid = "Kim";
-//var userid = "Cozi";
 
 
 $.get("/api/userlists/" + userid, function(listdata) {
@@ -41,11 +41,7 @@ $.get("/api/userlists/" + userid, function(listdata) {
     // if this category isn't already pushed
     if (personalCats.indexOf(listdata[i].category) === -1) { 
 
-     if (listdata[i].category.length > 1) {
-
-        personalCats.push(listdata[i].category);
-
-      } // end if the category field isn't empty  
+      personalCats.push(listdata[i].category);
 
     } // end if this category isn't already pushed
 
@@ -134,8 +130,6 @@ $(".myList").click(function(){
 
   listId = $(this).attr("id");
 
-  console.log("list_id: " + listId);
-
 
   $.get("/api/list/" + listId, function(carddata) {
 
@@ -157,7 +151,7 @@ $(".myList").click(function(){
 
         hString += '</ol>';
 
-        footer = 'Created by: &nbsp; <a href="' + listSrc + '" target="_blank"> ' + listAuthor + '</a> &nbsp; <button type="button" id="reset" class="btn btn-default" data-dismiss="modal">Close</button>';
+        footer = 'Created by: &nbsp; <a href="' + listSrc + '" target="_blank"> ' + listAuthor + '</a> &nbsp; <button type="button" id="deleter" class="btn btn-default" data-dismiss="modal">Delete List</button>';
 
       }).then(function(itemdata) {
 
@@ -197,6 +191,51 @@ $("#firstList").on("click", function(){
     window.location.href = "create.html";
 
 });
+
+$("#deleter").on("click", function(){
+
+  console.log(listId + " selected");
+
+      var badList = $("#deleterName").val();
+
+        $.get("/api/deletelist/" + badList, function(listdata) {
+
+        });
+
+        $("#listModal").modal('toggle');
+
+        alert("List " + badList + " deleted");
+        window.location.href = "mylists.html";
+
+        $.get("/api/lists/" + listId, function(itemdata) {
+
+          for (var i = 0; i < itemdata.length; i++) {
+
+              itemIds.push(itemdata[i].id);
+
+          } // end for each list_item
+            console.log(itemIds);
+
+          for (x = 0; x < itemIds.length; x++) {
+           
+          $.get("/api/deletelistitem/" + itemIds[x], function(listdata) {
+            
+           
+          });
+        } // end for loop  
+      });  
+
+}); // end function deletelist
+
+$("#cancel").on("click", function(){
+
+    window.location.href = "mylists.html";
+
+});
+
+
+$("#editModal").modal('toggle');
+   
 
 
 

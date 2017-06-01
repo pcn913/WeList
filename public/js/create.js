@@ -215,10 +215,9 @@ $("#continue").on("click", function(){
 
   if ($("#createCat").val().length > 1) {
 
-     currCat = $("#createCat").val();
-  
+      currCat = $("#createCat").val();
   }
-
+  
   currDesc = $("#createDesc").val();
 
   // put the list name and image url into the list items view modal

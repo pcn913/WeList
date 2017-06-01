@@ -13,6 +13,16 @@ var db = require("../models");
 module.exports = function(app) {
 
 
+  app.get("/api/lists", function(req, res) {
+    var query = {};
+
+    db.List.findAll({
+      where: query
+    }).then(function(dbList) {
+      res.json(dbList);
+    });
+  });
+
   app.get("/api/maxid", function(req, res) {
 
     db.List.max('list_id', {
@@ -22,7 +32,6 @@ module.exports = function(app) {
     });
   });
 
-  // get rout for getting the data for all the lists
   app.get("/api/cards", function(req, res) {
 
        db.List.findAll({}).then(function(dbPost) {
@@ -31,8 +40,19 @@ module.exports = function(app) {
     });
   });  
 
+    app.get("/api/items", function(req, res) {
 
-   //Get route for retrieving the items for a single list, based on list_id
+     db.List_Item.findAll({}).then(function(result) {
+
+
+      for (var i = 0; i < result.length; i++) {     
+
+      } // end for loop
+      res.json(result);
+    });
+  });
+
+   //Get route for retrieving the items for a single list
   app.get("/api/list/:id", function(req, res) {
   
     db.List.findAll({
@@ -45,8 +65,20 @@ module.exports = function(app) {
     });
   });  
   
+ //Get route for retrieving the items for a single list
+  app.get("/api/discover/:id", function(req, res) {
+  
+    db.List.findAll({
+      where: {
+        category: req.params.id
+      }
 
-  //Get route for retrieving all of a single user's lists, based on userid
+    }).then(function(dbPost) {
+      res.json(dbPost);
+    });
+  });  
+
+  //Get route for retrieving the items for a single list
   app.get("/api/userlists/:id", function(req, res) {
   
     db.List.findAll({
@@ -59,7 +91,7 @@ module.exports = function(app) {
     });
   });  
 
-  //Get route for deleting a single list, based on list_id
+  //Get route for deleting a single list
   app.get("/api/deletelist/:id", function(req, res) {
   
     db.List.destroy({ 
@@ -73,7 +105,7 @@ module.exports = function(app) {
     });
   });  
 
-  //Get route for deleting a single list item, based on the id
+  //Get route for deleting a single list item
   app.get("/api/deletelistitem/:id", function(req, res) {
   
     db.List_Item.destroy({ 
@@ -87,7 +119,7 @@ module.exports = function(app) {
     });
   });  
 
-  //Get route for retrieving all of the items for a single list, based on list_id
+  //Get route for retrieving the items for a single list
   app.get("/api/lists/:id", function(req, res) {
   
     db.List_Item.findAll({
@@ -101,7 +133,6 @@ module.exports = function(app) {
 
   });
 
-// post route for creating a list
 app.post("/api/createlist", function(req, res) {
 
     db.List.create({
@@ -116,25 +147,19 @@ app.post("/api/createlist", function(req, res) {
 
   });
 
-// post route for creating all of the list items for a single list
 app.post("/api/createitems", function(req, res) {
 
-    // take the body from the received request, and assign it to a local object variable
     var listItems = req.body;
 
-    // set up an empty array to receive the promises that will be pushed into it
     var promises = [];
 
-    // iterate through all of the list item objects that are in the listItems object
     for(var propt in listItems){
 
-      // assign the sequelize create command for the current (per iteration) list item to a local object
       var newPromise = db.List_Item.create({'list_id': listItems[propt].list_id, 'item': listItems[propt].item, 'item_number': listItems[propt].item_number});
-      // push the command object into the promises array
+      console.log("\nnewPromise: " + newPromise + "\n");
       promises.push(newPromise);
-    }  // next, invoke the commands in the promises array, waiting until they're completed
-     Promise.all(promises).then(function() {   
-      // console log a success message  
+    }
+     Promise.all(promises).then(function() {
       console.log("all the items were created");
     });
 

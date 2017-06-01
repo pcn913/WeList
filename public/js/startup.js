@@ -21,15 +21,15 @@ var leftPaddle = document.getElementsByClassName('left-paddle');
 var rightPaddle = document.getElementsByClassName('right-paddle');
 // get items dimensions
 var itemsLength = $('.item').length;
-//console.log(".item length: " + itemsLength);
+console.log(".item length: " + itemsLength);
 var itemSize = $('.item').outerWidth(true);
-//console.log(".item size: " + itemSize);
+console.log(".item size: " + itemSize);
 
-//console.log("itemsize: " + itemSize);
+console.log("itemsize: " + itemSize);
 // get some relevant size for the paddle triggering point
 var paddleMargin = 20;
 
-//console.log("menuWrapperSize: " + $('.menu-wrapper').outerWidth());
+console.log("menuWrapperSize: " + $('.menu-wrapper').outerWidth());
 
 // get wrapper width
 var getMenuWrapperSize = function() {
@@ -48,7 +48,6 @@ var getMenuSize = function() {
   return itemsLength * itemSize;
 };
 var menuSize = getMenuSize();
-//console.log("menusize: " + menuSize);
 // get how much of menu is invisible
 var menuInvisibleSize = menuSize - menuWrapperSize;
 
@@ -57,8 +56,8 @@ var getMenuPosition = function() {
   return $('.menu').scrollLeft();
 };
 
-
-//console.log("menuwrappersize: " + menuWrapperSize);
+console.log("menusize: " + menuSize);
+console.log("menuwrappersize: " + menuWrapperSize);
 
 // finally, what happens when we are actually scrolling the menu
 $('.menu').on('scroll', function() {
