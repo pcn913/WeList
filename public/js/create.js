@@ -213,12 +213,12 @@ $("#continue").on("click", function(){
   currName = $("#createName").val();
   currImg = $("#createPhoto").val();
 
-  if ($"#createCat").val().length > 1 {
+  if ($("#createCat").val().length > 1) {
 
      currCat = $("#createCat").val();
   
   }
-  
+
   currDesc = $("#createDesc").val();
 
   // put the list name and image url into the list items view modal
