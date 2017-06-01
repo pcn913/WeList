@@ -35,7 +35,7 @@ module.exports = function(router) {
 
     models.List.findAll({
       //include: [ models.Task ]
-      limit: 5
+      limit: 15
     }).then(function(lists) {
       console.log(req.user);
 

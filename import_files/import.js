@@ -130,74 +130,74 @@ fs.readFile("users_5_22.csv", "utf8", function(error,data) {
 
 
 
-// fs.readFile("lists_5_22.csv", "utf8", function(error,data) {
-// 		if (!error) {
+fs.readFile("lists_5_22.csv", "utf8", function(error,data) {
+		if (!error) {
 
-// 			// split the file data into an array of lines of text
-// 			var listsRows = data.split("\r\n");
-
-
-// 			for (var i = 1; i < listsRows.length; i++) {
-
-// 				 var rowFields = parse(listsRows[i]);
-// 				// console.log("\n\n" + Number(rowFields[1]) + "\n\n");
-
-// 				 if (Number(rowFields[1]) > 100) {
-
-// 						List.create({
-
-// 							  userid: rowFields[0],
-//   							list_id: Number(rowFields[1]),
-//   							category: rowFields[2],
-//   							list_type: rowFields[3],
-//   							title: rowFields[4],
-//    							description: rowFields[5],
-//     						source_url: rowFields[6],
-//   							list_photo: rowFields[7]
-
-// 						}); // end create
-// 				} // end if		
-
-// 			} // end for loop
-
-// 		} else {
-// 			 console.log("\nError reading List import file");
-// 			 main();
-// 		}
-// });
+			// split the file data into an array of lines of text
+			var listsRows = data.split("\r\n");
 
 
-// fs.readFile("list_items_5_22.csv", "utf8", function(error,data) {
-// 		if (!error) {
+			for (var i = 1; i < listsRows.length; i++) {
 
-// 			// split the file data into an array of lines of text
-// 			var itemsRows = data.split("\r\n");
+				 var rowFields = parse(listsRows[i]);
+				// console.log("\n\n" + Number(rowFields[1]) + "\n\n");
+
+				 if (Number(rowFields[1]) > 100) {
+
+						List.create({
+
+							  userid: rowFields[0],
+  							list_id: Number(rowFields[1]),
+  							category: rowFields[2],
+  							list_type: rowFields[3],
+  							title: rowFields[4],
+   							description: rowFields[5],
+    						source_url: rowFields[6],
+  							list_photo: rowFields[7]
+
+						}); // end create
+				} // end if		
+
+			} // end for loop
+
+		} else {
+			 console.log("\nError reading List import file");
+			 main();
+		}
+});
 
 
-// 			// loop through the array to retrieve the card front info 
-// 			// and corresponding card file name for each index entry
-// 			for (var i = 1; i < itemsRows.length; i++) {
+fs.readFile("list_items_5_22.csv", "utf8", function(error,data) {
+		if (!error) {
 
-// 				 var rowFields = parse(itemsRows[i]);
+			// split the file data into an array of lines of text
+			var itemsRows = data.split("\r\n");
 
-// 				if (Number(rowFields[0]) > 100) {
 
-// 						List_Item.create({
+			// loop through the array to retrieve the card front info 
+			// and corresponding card file name for each index entry
+			for (var i = 1; i < itemsRows.length; i++) {
 
-//                 list_id: Number(rowFields[0]),
-//   							item: rowFields[1],
-//   							item_number: Number(rowFields[2])
+				 var rowFields = parse(itemsRows[i]);
 
-// 						}); // end create
-// 				} // end if		
+				if (Number(rowFields[0]) > 100) {
+
+						List_Item.create({
+
+                list_id: Number(rowFields[0]),
+  							item: rowFields[1],
+  							item_number: Number(rowFields[2])
+
+						}); // end create
+				} // end if		
 	
 
-// 			} // end for loop
+			} // end for loop
 
-// 		} else {
-// 			 console.log("\nError reading List_Item import file");
-// 			 main();
-// 		}
-// });		
+		} else {
+			 console.log("\nError reading List_Item import file");
+			 main();
+		}
+});		
 
 console.log('done');		
