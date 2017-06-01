@@ -7,10 +7,16 @@ var cardImg = "";
 var listAuthor = "";
 var listSrc = "";
 var footer = "";
+var preclickColor = "";
+var preclickThis = "";
+var clickedThis = "";
 var num = 0;
 var listdata = [];
 var userid = "Kim";
-//var userid = "Cozi";
+var searchQuery = "";
+var preclickColor = "";
+var preclickThis = "";
+var clickedThis = "";
 
 
 $.get("/api/userlists/" + userid, function(listdata) {
@@ -41,7 +47,7 @@ $.get("/api/userlists/" + userid, function(listdata) {
     // if this category isn't already pushed
     if (personalCats.indexOf(listdata[i].category) === -1) { 
 
-     if (listdata[i].category.length > 1) {
+     if (listdata[i].category.length) {
 
         personalCats.push(listdata[i].category);
 
@@ -86,6 +92,21 @@ $.get("/api/userlists/" + userid, function(listdata) {
 
   // set the click binding for the category menu entries
   $(".item").click(function(){
+
+    if (preclickThis) {
+
+         $(preclickThis).css('background-color', preclickColor);
+
+    }
+
+
+    clickedThis = this;
+    preclickThis = clickedThis;
+    preclickColor = $(clickedThis).css('background-color');
+
+    var clickedId = $(clickedThis).attr("id");
+  
+    $(clickedThis).css('background-color', '#d9534f');
 
     $("#lists").html("");
 
@@ -198,7 +219,42 @@ $("#firstList").on("click", function(){
 
 });
 
+$("#search").submit(function(e){
 
+      $("#lists").html("");
+
+           //prevent Default functionality
+        e.preventDefault();
+
+        //get the action-url of the form
+        var actionurl = e.currentTarget.action;
+
+      //do your own request an handle the results
+      $.ajax({
+        url: actionurl,
+        type: 'get',
+        data: $("#search").serialize(),
+        error: function(listdata) {console.log("ajax error:" + JSON.stringify(errdata));},
+        success: function(listdata) {
+
+                   // ... do something with the data...
+      
+          console.log(listdata);
+
+          for (var i = 0; i < listdata.length; i++) {
+
+            itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
+            itemString += '<p>' + listdata[i].description + '</p>';
+            listId = listdata[i].list_id;
+
+            appendCard(listId, listdata[i].title, itemString);
+
+          } // end for each lists
+
+          makeBinding();
+        } // end success function
+      });
+}); // end .item click function
 
 
 

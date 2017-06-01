@@ -5,9 +5,13 @@ var cardImg = "";
 var listAuthor = "";
 var listSrc = "";
 var footer = "";
+var searchQuery = "";
+var preclickColor = "";
+var preclickThis = "";
+var clickedThis = "";
 
 console.log("in script");
-$.get("/api/cards", function(listdata) {
+$.get("/api/home", function(listdata) {
 
   for (var i = 0; i < listdata.length; i++) {
 
@@ -89,3 +93,41 @@ function appendCard(list_id, title, content) {
     $("#lists").append(h);
             
 } // end function appendCard
+
+
+$("#search").submit(function(e){
+
+      $("#lists").html("");
+
+           //prevent Default functionality
+        e.preventDefault();
+
+        //get the action-url of the form
+        var actionurl = e.currentTarget.action;
+
+      //do your own request an handle the results
+      $.ajax({
+        url: actionurl,
+        type: 'get',
+        data: $("#search").serialize(),
+        error: function(listdata) {console.log("ajax error:" + JSON.stringify(errdata));},
+        success: function(listdata) {
+
+                   // ... do something with the data...
+      
+          console.log(listdata);
+
+          for (var i = 0; i < listdata.length; i++) {
+
+            itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
+            itemString += '<p>' + listdata[i].description + '</p>';
+            listId = listdata[i].list_id;
+
+            appendCard(listId, listdata[i].title, itemString);
+
+          } // end for each lists
+
+          makeBinding();
+        } // end success function
+      });
+}); // end .item click function

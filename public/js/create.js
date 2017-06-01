@@ -59,7 +59,11 @@ $.get("/api/userlists/" + userId, function(listdata) {
     // if this category isn't already pushed
     if (personalCats.indexOf(listdata[i].category) === -1) { 
 
-      personalCats.push(listdata[i].category);
+      if (listdata[i].category.length) {
+
+          personalCats.push(listdata[i].category);
+
+       } // end if the category field isn't empty   
 
     } // end if this category isn't already pushed
 
@@ -190,7 +194,6 @@ $(".myList").click(function(){
 // the app uses bootstrap's card columns to arrange the layout
 function appendCard(list_id, title, content) {
 
-    //console.log("in appendCard");
 
     var h = '<div class="card myList" id="' + listId + '">';
     h += '<div class="card-header">' + title + '</div>';

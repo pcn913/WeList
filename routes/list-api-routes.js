@@ -40,6 +40,35 @@ module.exports = function(app) {
     });
   });  
 
+  app.get("/api/home", function(req, res) {
+
+    db.List.findAll({
+     //include: [ models.Task ]
+     limit: 9
+   }).then(function(dbPost) {
+    
+      res.json(dbPost);
+    });
+  });   
+
+  app.get("/api/search", function(req, res) {
+
+    console.log("\n\n" + JSON.stringify(req.query.q) + "\n\n" );
+
+  db.List.findAll({
+      where: {
+       description:
+         {
+           $like: '%' + req.query.q + '%'
+         }  
+      }
+   }).then(function(dbPost) {
+    
+      res.json(dbPost);
+    });
+  });  
+
+
     app.get("/api/items", function(req, res) {
 
      db.List_Item.findAll({}).then(function(result) {
@@ -133,6 +162,7 @@ module.exports = function(app) {
 
   });
 
+// post route to create a list
 app.post("/api/createlist", function(req, res) {
 
     db.List.create({
@@ -147,6 +177,7 @@ app.post("/api/createlist", function(req, res) {
 
   });
 
+// post route to add items for a list
 app.post("/api/createitems", function(req, res) {
 
     var listItems = req.body;

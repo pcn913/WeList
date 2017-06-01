@@ -5,6 +5,10 @@ var cardImg = "";
 var listAuthor = "";
 var listSrc = "";
 var footer = "";
+var searchQuery = "";
+var preclickColor = "";
+var preclickThis = "";
+var clickedThis = "";
 
 $.get("/api/cards", function(listdata) {
 
@@ -78,7 +82,7 @@ $(".myList").click(function(){
 
 function appendCard(list_id, title, content) {
 
-    console.log("in appendCard");
+    //console.log("in appendCard");
 
     var h = '<div class="card myList" id="' + listId + '">';
     h += '<div class="card-header">' + title + '</div>';
@@ -95,11 +99,24 @@ function appendCard(list_id, title, content) {
 
 $(".item").click(function(){
 
-      $("#lists").html("");
+    $("#lists").html("");
 
-    console.log($(this).attr("id"));
+    if (preclickThis) {
 
-  $.get("/api/discover/" + $(this).attr("id"), function(listdata) {
+         $(preclickThis).css('background-color', preclickColor);
+
+    }
+
+
+    clickedThis = this;
+    preclickThis = clickedThis;
+    preclickColor = $(clickedThis).css('background-color');
+
+    var clickedId = $(clickedThis).attr("id");
+ 
+    $(clickedThis).css('background-color', '#d9534f');
+
+  $.get("/api/discover/" + clickedId, function(listdata) {
 
     for (var i = 0; i < listdata.length; i++) {
 
@@ -114,4 +131,41 @@ $(".item").click(function(){
     makeBinding();
 
   });
+}); // end .item click function
+
+$("#search").submit(function(e){
+
+      $("#lists").html("");
+
+           //prevent Default functionality
+        e.preventDefault();
+
+        //get the action-url of the form
+        var actionurl = e.currentTarget.action;
+
+      //do your own request an handle the results
+      $.ajax({
+        url: actionurl,
+        type: 'get',
+        data: $("#search").serialize(),
+        error: function(listdata) {console.log("ajax error:" + JSON.stringify(errdata));},
+        success: function(listdata) {
+
+                   // ... do something with the data...
+      
+          console.log(listdata);
+
+          for (var i = 0; i < listdata.length; i++) {
+
+            itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
+            itemString += '<p>' + listdata[i].description + '</p>';
+            listId = listdata[i].list_id;
+
+            appendCard(listId, listdata[i].title, itemString);
+
+          } // end for each lists
+
+          makeBinding();
+        } // end success function
+      });
 }); // end .item click function
