@@ -1,3 +1,13 @@
+#itemSubmit {
+
+ background-color: #d9534f;
+ border: none;
+ color: white;
+
+}
+
+button:focus {outline:0;}
+
 .num1 {
 
   background-color: #666666;

@@ -53,8 +53,6 @@ module.exports = function(app) {
 
   app.get("/api/search", function(req, res) {
 
-    console.log("\n\n" + JSON.stringify(req.query.q) + "\n\n" );
-
   db.List.findAll({
       where: {
        description:
@@ -81,7 +79,7 @@ module.exports = function(app) {
     });
   });
 
-   //Get route for retrieving the items for a single list
+   //Get route for retrieving the data for a single list
   app.get("/api/list/:id", function(req, res) {
   
     db.List.findAll({
@@ -94,7 +92,7 @@ module.exports = function(app) {
     });
   });  
   
- //Get route for retrieving the items for a single list
+ //Get route for retrieving the list records for a given category
   app.get("/api/discover/:id", function(req, res) {
   
     db.List.findAll({
@@ -107,7 +105,7 @@ module.exports = function(app) {
     });
   });  
 
-  //Get route for retrieving the items for a single list
+  //Get route for retrieving the lists for a single user
   app.get("/api/userlists/:id", function(req, res) {
   
     db.List.findAll({
@@ -159,7 +157,6 @@ module.exports = function(app) {
     }).then(function(dbPost) {
       res.json(dbPost);
     });
-
   });
 
 // post route to create a list
@@ -174,7 +171,6 @@ app.post("/api/createlist", function(req, res) {
     category: req.body.category,
     description: req.body.description
     });
-
   });
 
 // post route to add items for a list
@@ -193,7 +189,23 @@ app.post("/api/createitems", function(req, res) {
      Promise.all(promises).then(function() {
       console.log("all the items were created");
     });
-
   });
+
+// Route to update a list item
+app.put("/api/itemupdate", function(req, res) {
+
+  var listitem = req.body;
+
+  db.List_Item.update({
+    item: listitem.item
+    }, {
+    where: {
+      id: listitem.id
+    }
+    }).then(function(dbPost) {
+
+      res.send(listitem.item);
+  }); 
+}); // end item update
 
 };

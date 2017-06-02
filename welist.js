@@ -6,6 +6,7 @@
 // =============================================================
 var express = require("express");
 var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
 
 // Sets up the Express App
 // =============================================================
@@ -14,6 +15,8 @@ var PORT = process.env.PORT || 3009;
 
 // Requiring our models for syncing
 var db = require("./models");
+
+app.use(methodOverride("_method"));
 
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());

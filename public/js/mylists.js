@@ -13,10 +13,14 @@ var clickedThis = "";
 var num = 0;
 var listdata = [];
 var userid = "Kim";
-var searchQuery = "";
+//var searchQuery = "";
 var preclickColor = "";
 var preclickThis = "";
 var clickedThis = "";
+var itemText = "";
+var edititemId = "";
+var activeId = 0;
+var itemClicked = "";
 
 
 $.get("/api/userlists/" + userid, function(listdata) {
@@ -31,7 +35,19 @@ $.get("/api/userlists/" + userid, function(listdata) {
 
   for (var i = 0; i < listdata.length; i++) {
 
-    itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
+    cardImg = listdata[i].list_photo;
+
+      if (cardImg) {
+
+          console.log("image exists");
+
+      } else {
+
+        cardImg = "img/todo-nottodo.jpg";
+
+  } // end if no list image provided
+
+    itemString = '<img src="' + cardImg + '" width="100%">';
     itemString += '<p>' + listdata[i].description + '</p>';
     listId = listdata[i].list_id;
 
@@ -114,7 +130,7 @@ $.get("/api/userlists/" + userid, function(listdata) {
 
       if ($(this).attr("id") === "All") {
 
-        itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
+        itemString = '<img src="' + cardImg + '" width="100%">';
         itemString += '<p>' + listdata[i].description + '</p>';
         listId = listdata[i].list_id;
 
@@ -124,7 +140,7 @@ $.get("/api/userlists/" + userid, function(listdata) {
 
       if (listdata[i].category === $(this).attr("id")) {
 
-        itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
+        itemString = '<img src="' + cardImg + '" width="100%">';
         itemString += '<p>' + listdata[i].description + '</p>';
         listId = listdata[i].list_id;
 
@@ -166,19 +182,30 @@ $(".myList").click(function(){
         listSrc = carddata[0].source_url;
 
 
+      if (cardImg) {
+
+          console.log("image exists");
+
+       } else {cardImg = "img/todo-nottodo.jpg";
+
+      } // end if no list image provided
+
+
+
       }).then($.get("/api/lists/" + listId, function(itemdata) {
 
         hString = '<ol>';      
     
         for (var i = 0; i < itemdata.length; i++) {
 
-          hString += '<li>' + itemdata[i].item;
+          hString += '<li class="l-item" id=' + itemdata[i].id + '>' + itemdata[i].item;
 
           } // end for each list_item
 
         hString += '</ol>';
 
-        footer = 'Created by: &nbsp; <a href="' + listSrc + '" target="_blank"> ' + listAuthor + '</a> &nbsp; <button type="button" id="reset" class="btn btn-default" data-dismiss="modal">Close</button>';
+
+        footer = ' Created by: &nbsp; <a href="' + listSrc + '" target="_blank"> ' + listAuthor + '</a> &nbsp; <button type="button" id="reset" class="btn btn-default" data-dismiss="modal">Close</button>';
 
       }).then(function(itemdata) {
 
@@ -189,9 +216,64 @@ $(".myList").click(function(){
         // Show the list modal
         $("#listModal").modal('toggle');
 
+      $(".l-item").on("click", function(){
+
+          itemText = $(this).text();
+
+
+          if (activeId === 0) {
+
+            activeId = $(this).attr('id')
+
+            edititemId = $(this).attr('id');
+
+
+            //console.log("\npost-click item id: " + edititemId);
+
+            itemClicked = this;
+
+            //$(this).unbind("click");
+
+            $(this).html('<form id="itemupdate" action="/api/itemupdate/?_method=PUT" method="POST"><input type="text" size="45" name="item" value="' + itemText + '"><input type="hidden" name="id" value="' + edititemId + '"><button id="itemSubmit" type="submit">Ok</button></form>'); 
+
+          } // end if an item's been already selected for editing
+
+
+$("#itemupdate").submit(function(event){
+
+        //prevent Default functionality
+        event.preventDefault();
+
+        //get the action-url of the form
+        var actionurl = event.currentTarget.action;
+
+      $.ajax({
+        url: actionurl,
+        type: 'post',
+        data: $("#itemupdate").serialize(),
+        error: function(errdata) {console.log("ajax error:" + JSON.stringify(errdata));},
+        success: function(data) {
+
+          //console.log(itemClicked);
+
+          activeId = 0;
+
+          $(itemClicked).html(data);
+
+        } // end success function
+
+      });
+}); // end submit function
+
+
+
+        }); // end l-item on click function
+
+
       })); // end chained ajax calls
 
   });   // end click event 
+
 } // end function makeBinding
  
 
@@ -219,42 +301,11 @@ $("#firstList").on("click", function(){
 
 });
 
-$("#search").submit(function(e){
 
-      $("#lists").html("");
 
-           //prevent Default functionality
-        e.preventDefault();
 
-        //get the action-url of the form
-        var actionurl = e.currentTarget.action;
 
-      //do your own request an handle the results
-      $.ajax({
-        url: actionurl,
-        type: 'get',
-        data: $("#search").serialize(),
-        error: function(listdata) {console.log("ajax error:" + JSON.stringify(errdata));},
-        success: function(listdata) {
 
-                   // ... do something with the data...
-      
-          console.log(listdata);
-
-          for (var i = 0; i < listdata.length; i++) {
-
-            itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
-            itemString += '<p>' + listdata[i].description + '</p>';
-            listId = listdata[i].list_id;
-
-            appendCard(listId, listdata[i].title, itemString);
-
-          } // end for each lists
-
-          makeBinding();
-        } // end success function
-      });
-}); // end .item click function
 
 
 

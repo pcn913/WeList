@@ -15,6 +15,18 @@ $.get("/api/home", function(listdata) {
 
   for (var i = 0; i < listdata.length; i++) {
 
+      cardImg = listdata[i].list_photo;
+
+      if (cardImg) {
+
+          //console.log("image exists");
+
+      } else {
+
+        cardImg = "img/todo-nottodo.jpg";
+
+      } // end if no list image provided
+
     itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
     itemString += '<p>' + listdata[i].description + '</p>';
     listId = listdata[i].list_id;
@@ -42,6 +54,16 @@ $(".myList").click(function(){
         cardImg = carddata[0].list_photo; 
         listAuthor = carddata[0].userid;
         listSrc = carddata[0].source_url;
+
+        if (cardImg) {
+
+          //console.log("image exists");
+
+        } else {
+
+          cardImg = "img/todo-nottodo.jpg";
+
+        } // end if no list image provided
 
         console.log("list_id: " + listId);
 

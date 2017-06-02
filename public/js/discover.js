@@ -12,9 +12,23 @@ var clickedThis = "";
 
 $.get("/api/cards", function(listdata) {
 
+
+
   for (var i = 0; i < listdata.length; i++) {
 
-    itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
+      cardImg = listdata[i].list_photo;
+
+      if (cardImg) {
+
+          //console.log("image exists");
+
+      } else {
+
+        cardImg = "img/todo-nottodo.jpg";
+
+      } // end if no list image provided
+
+    itemString = '<img src="' + cardImg + '" width="100%">';
     itemString += '<p>' + listdata[i].description + '</p>';
     listId = listdata[i].list_id;
 
@@ -45,6 +59,16 @@ $(".myList").click(function(){
         cardImg = carddata[0].list_photo; 
         listAuthor = carddata[0].userid;
         listSrc = carddata[0].source_url;
+
+        if (cardImg) {
+
+          console.log("image exists");
+
+        } else {
+
+        cardImg = "img/todo-nottodo.jpg";
+
+  } // end if no list image provided
 
         console.log("list_id: " + listId);
 
@@ -120,7 +144,19 @@ $(".item").click(function(){
 
     for (var i = 0; i < listdata.length; i++) {
 
-      itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
+      cardImg = listdata[i].list_photo;
+
+      if (cardImg) {
+
+          console.log("image exists");
+
+      } else {
+
+        cardImg = "img/todo-nottodo.jpg";
+
+      } // end if no list image provided
+
+      itemString = '<img src="' + cardImg + '" width="100%">';
       itemString += '<p>' + listdata[i].description + '</p>';
       listId = listdata[i].list_id;
 
@@ -137,21 +173,18 @@ $("#search").submit(function(e){
 
       $("#lists").html("");
 
-           //prevent Default functionality
+        //prevent Default functionality
         e.preventDefault();
 
         //get the action-url of the form
         var actionurl = e.currentTarget.action;
 
-      //do your own request an handle the results
       $.ajax({
         url: actionurl,
         type: 'get',
         data: $("#search").serialize(),
         error: function(listdata) {console.log("ajax error:" + JSON.stringify(errdata));},
         success: function(listdata) {
-
-                   // ... do something with the data...
       
           console.log(listdata);
 
