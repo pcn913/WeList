@@ -69,6 +69,10 @@ $(".myList").click(function(){
 
       }).then($.get("/api/lists/" + listId, function(itemdata) {
 
+        itemdata.sort(function(a, b) {
+          return parseFloat(a.item_number) - parseFloat(b.item_number);
+        });
+
         hString = '<ol>';      
     
         for (var i = 0; i < itemdata.length; i++) {
@@ -149,7 +153,11 @@ $("#search").submit(function(e){
 
           } // end for each lists
 
-          makeBinding();
+
         } // end success function
+
       });
-}); // end .item click function
+
+      $("#srch").val("");
+      
+}); // end #search click function

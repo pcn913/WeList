@@ -238,6 +238,28 @@ $("#continue").on("click", function(){
     }
   });
 
+  // make a newList obj containing all of the data needed to create
+  // an entry in the Lists table
+  newList = {
+    userid: userId,
+    list_id: currListId,
+    list_type: currType,
+    title: currName,
+    list_photo: currImg,
+    category: currCat,
+    description: currDesc
+  };
+
+    // save the newList to the db, using a conventional ajax post
+    // sending the newList object to the route 
+    $.post("/api/createlist", newList)
+      // on success, run this callback
+      .done(function(data) {
+      // log the data we found
+      console.log(data);
+    });
+
+
 }); // end continue on click function
 
 
@@ -276,27 +298,6 @@ $("#add").on("click", function(){
 $("#save").on("click", function(){
 
 
-  // make a newList obj containing all of the data needed to create
-  // an entry in the Lists table
-  newList = {
-    userid: userId,
-    list_id: currListId,
-    list_type: currType,
-    title: currName,
-    list_photo: currImg,
-    category: currCat,
-    description: currDesc
-  };
-
-    // save the newList to the db, using a conventional ajax post
-    // sending the newList object to the route 
-    $.post("/api/createlist", newList)
-      // on success, run this callback
-      .done(function(data) {
-      // log the data we found
-      console.log(data);
-    });
-
     // convert the currItems array into a js object of objects
     // this will be sent to the route for creating multiple list items at once
     Object.keys(currItems).forEach(function(key) {
@@ -330,6 +331,12 @@ $(".cancel").on("click", function(){
     window.location.href = "mylists.html";
 
 });
+
+// $('#createModal').on('hidden.bs.modal', function () {
+
+//       window.location.href = "mylists.html";
+
+// })
 
 // open the create modal automatically on page load
 $("#createModal").modal('toggle');

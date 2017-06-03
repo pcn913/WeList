@@ -173,6 +173,16 @@ app.post("/api/createlist", function(req, res) {
     });
   });
 
+// post route to create a list
+app.post("/api/createitem", function(req, res) {
+
+    db.List_Item.create({
+      list_id: req.body.list_id, 
+      item: req.body.item, 
+      item_number: req.body.item_number
+    });
+  });
+
 // post route to add items for a list
 app.post("/api/createitems", function(req, res) {
 

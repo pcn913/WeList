@@ -135,19 +135,33 @@
     </div><!-- /.container -->
 
     <!-- Modal -->
-  <div id="listModal" class="modal fade" role="dialog">
+  <div id="loginModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
          
-          <h2 class="modal-title" id="listName"><strong>List Detail</strong></h2>
+          <h2 class="modal-title" id="loginTitle"><strong>Login</strong></h2>
         </div>
         <div class="modal-body">
-          <h2 ></h2>
-          <img id="listImg" src="http://www.globeslcc.com/wp-content/uploads/media/anonymous_girl_facebook.jpg" alt="" style="height: auto; max-width: 100%">
-          <p><div id="listItems"></div></p>
+         
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+
+
         </div>
         <div class="modal-footer" id="cardFooter">
           <!-- dynamically insert footer here -->
@@ -157,6 +171,6 @@
     </div>
   </div>
 
-<script src="/js/home.js"></script>
+<script src="/js/login.js"></script>
 </body>
 </html>

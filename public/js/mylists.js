@@ -116,6 +116,8 @@ $.get("/api/userlists/" + userid, function(listdata) {
     }
 
 
+
+
     clickedThis = this;
     preclickThis = clickedThis;
     preclickColor = $(clickedThis).css('background-color');
@@ -127,6 +129,19 @@ $.get("/api/userlists/" + userid, function(listdata) {
     $("#lists").html("");
 
       for (var i = 0; i < listdata.length; i++) {
+
+      cardImg = listdata[i].list_photo;
+
+      if (cardImg) {
+
+          console.log("image exists");
+
+      } else {
+
+        cardImg = "img/todo-nottodo.jpg";
+
+      } // end if no list image provided
+
 
       if ($(this).attr("id") === "All") {
 
@@ -194,6 +209,10 @@ $(".myList").click(function(){
 
       }).then($.get("/api/lists/" + listId, function(itemdata) {
 
+        itemdata.sort(function(a, b) {
+            return parseFloat(a.item_number) - parseFloat(b.item_number);
+        });
+
         hString = '<ol>';      
     
         for (var i = 0; i < itemdata.length; i++) {
@@ -210,6 +229,7 @@ $(".myList").click(function(){
       }).then(function(itemdata) {
 
         $("#listName").text(cardName);
+        //$("#listName").attr('id', listId);
         $("#listImg").attr('src', cardImg);
         $("#listItems").html(hString);
         $("#cardFooter").html(footer);

@@ -10,9 +10,8 @@ var preclickColor = "";
 var preclickThis = "";
 var clickedThis = "";
 
-$.get("/api/cards", function(listdata) {
-
-
+console.log("in script");
+$.get("/api/home", function(listdata) {
 
   for (var i = 0; i < listdata.length; i++) {
 
@@ -28,7 +27,7 @@ $.get("/api/cards", function(listdata) {
 
       } // end if no list image provided
 
-    itemString = '<img src="' + cardImg + '" width="100%">';
+    itemString = '<img src="' + listdata[i].list_photo + '" width="100%">';
     itemString += '<p>' + listdata[i].description + '</p>';
     listId = listdata[i].list_id;
 
@@ -36,11 +35,7 @@ $.get("/api/cards", function(listdata) {
 
   } // end for each lists
 
-  makeBinding();
 
-}); // end cards get 
-
-function makeBinding () {
 $(".myList").click(function(){
 
   hString = "";
@@ -62,13 +57,13 @@ $(".myList").click(function(){
 
         if (cardImg) {
 
-          console.log("image exists");
+          //console.log("image exists");
 
         } else {
 
-        cardImg = "img/todo-nottodo.jpg";
+          cardImg = "img/todo-nottodo.jpg";
 
-  } // end if no list image provided
+        } // end if no list image provided
 
         console.log("list_id: " + listId);
 
@@ -92,7 +87,7 @@ $(".myList").click(function(){
 
         footer = 'Created by: &nbsp; <a href="' + listSrc + '" target="_blank"> ' + listAuthor + '</a> &nbsp; <button type="button" id="reset" class="btn btn-default" data-dismiss="modal">Close</button>';
 
-      }).then(function(itemdata) {
+        }).then(function(itemdata) {
 
         $("#listName").text(cardName);
         $("#listImg").attr('src', cardImg);
@@ -104,13 +99,13 @@ $(".myList").click(function(){
       })); // end chained ajax calls
 
   });   // end click event 
-} // end function makeBinding
- 
+
+}); // end cards get  
 
 
 function appendCard(list_id, title, content) {
 
-    //console.log("in appendCard");
+    console.log("in appendCard");
 
     var h = '<div class="card myList" id="' + listId + '">';
     h += '<div class="card-header">' + title + '</div>';
@@ -125,70 +120,26 @@ function appendCard(list_id, title, content) {
             
 } // end function appendCard
 
-$(".item").click(function(){
-
-    $("#lists").html("");
-
-    if (preclickThis) {
-
-         $(preclickThis).css('background-color', preclickColor);
-
-    }
-
-
-    clickedThis = this;
-    preclickThis = clickedThis;
-    preclickColor = $(clickedThis).css('background-color');
-
-    var clickedId = $(clickedThis).attr("id");
- 
-    $(clickedThis).css('background-color', '#d9534f');
-
-  $.get("/api/discover/" + clickedId, function(listdata) {
-
-    for (var i = 0; i < listdata.length; i++) {
-
-      cardImg = listdata[i].list_photo;
-
-      if (cardImg) {
-
-          console.log("image exists");
-
-      } else {
-
-        cardImg = "img/todo-nottodo.jpg";
-
-      } // end if no list image provided
-
-      itemString = '<img src="' + cardImg + '" width="100%">';
-      itemString += '<p>' + listdata[i].description + '</p>';
-      listId = listdata[i].list_id;
-
-      appendCard(listId, listdata[i].title, itemString);
-
-    } // end for each lists
-
-    makeBinding();
-
-  });
-}); // end .item click function
 
 $("#search").submit(function(e){
 
       $("#lists").html("");
 
-        //prevent Default functionality
+           //prevent Default functionality
         e.preventDefault();
 
         //get the action-url of the form
         var actionurl = e.currentTarget.action;
 
+      //do your own request an handle the results
       $.ajax({
         url: actionurl,
         type: 'get',
         data: $("#search").serialize(),
         error: function(listdata) {console.log("ajax error:" + JSON.stringify(errdata));},
         success: function(listdata) {
+
+                   // ... do something with the data...
       
           console.log(listdata);
 
@@ -202,10 +153,19 @@ $("#search").submit(function(e){
 
           } // end for each lists
 
-          makeBinding();
+
         } // end success function
+
       });
 
       $("#srch").val("");
+      
+}); // end #search click function
 
-}); // end search click function
+$('#loginModal').on('hidden.bs.modal', function () {
+
+      window.location.href = "index.html";
+
+})
+
+$("#loginModal").modal('toggle');
