@@ -1,19 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define("User", {
+  var List_Type = sequelize.define("List_Type", {
     // Giving the Author model a name of type STRING
-    first_name: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    last_name: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    password: {
+    list_type_name: {
       type: DataTypes.STRING,
       allowNull: false
     }
@@ -26,10 +14,10 @@ module.exports = function(sequelize, DataTypes) {
         associate: function(models) {
           // Associating Author with Posts
           // When an Author is deleted, also delete any associated Posts
-          User.hasMany(models.List);
+          List_Type.hasMany(models.List);
         }
       }
     }
   );
-  return User;
+  return List_Type;
 };

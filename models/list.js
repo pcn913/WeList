@@ -1,21 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
   var List = sequelize.define("List", {
-    userid: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    list_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    category: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    list_type: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     title: {
       type: DataTypes.STRING,
       allowNull: false
@@ -34,8 +18,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     ispublic: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: false,
+      default: true
     }
   });
   return List;
 };
+
+
